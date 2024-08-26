@@ -12,6 +12,9 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     game_clock = pygame.time.Clock()
     dt = 0
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
 
     player_ship = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
@@ -20,8 +23,12 @@ def main():
             if event.type == pygame.QUIT:
                 return
         screen.fill((0, 0, 0))
-        player_ship.update(dt)
-        player_ship.draw(screen)
+        for update_object in updatable:
+            update_object.update(dt)
+        for draw_object in drawable:
+            draw_object.draw(screen)
+        # player_ship.update(dt)
+        # player_ship.draw(screen)
         pygame.display.flip()
         dt = game_clock.tick(60) / 1000
 
